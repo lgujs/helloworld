@@ -1,0 +1,13 @@
+
+<h1>{{ tpoll.question }}</h1>
+
+{% if message %}<p><strong>{{ message }}</strong></p>{% endif %}
+
+<form action="{% url 'polls:vote' tpoll.id %}" method="post">
+{% csrf_token %}
+{% for choice in tpoll.choice_set.all %}
+    <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice.id }}" />
+    <label for="choice{{ forloop.counter }}">{{ choice.choice_text }}</label><br />
+{% endfor %}
+<input type="submit" value="Vote" />
+</form>
