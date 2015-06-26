@@ -33,6 +33,10 @@ urlpatterns = patterns('apptest.views',
             model=Poll,
             template_name='apptest/results.html'),
         name='results'),
+    url(r'^sn/$', views.ListSnippetView.as_view()),
+    url(r'^sn/(?P<pk>[0-9]+)/$', views.SnippetDetailView.as_view()),
+    url(r'^users/$', views.UserList.as_view()),
+    url(r'^users/(?P<pk>[0-9]+)/$', views.UserDetail.as_view()),
 
 
 )

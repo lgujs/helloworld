@@ -4,6 +4,11 @@ from django.core.urlresolvers import reverse
 from apptest.models import Poll, Choice
 from django.template import Context, loader
 from django.shortcuts import render, get_object_or_404
+from rest_framework import generics, permissions, viewsets
+from apptest.models import Snippet
+from apptest.serializes import SnippetSerializer, UserSerializer
+from django.contrib.auth.models import User
+
 
 '''
 def poll_index(request):
@@ -44,3 +49,26 @@ def vote(request, poll_id):
     selected_choice.votes += 1
     selected_choice.save()
     return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
+
+
+class ListSnippetView(generics.ListCreateAPIView):
+    queryset = Snippet.objects.all()
+    serializer_class = SnippetSerializer
+    permission_classes = (permissions.DjangoModelPermissionsOrAnonReadOnly,)
+
+
+
+class SnippetDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Snippet.objects.all()
+    serializer_class = SnippetSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    viewsets.ModelViewSet
